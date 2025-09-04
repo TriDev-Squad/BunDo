@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>BunDo — Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="logo">BunDo</h1>
+    <nav>
+      <a href="timer.html">Timer</a>
+      <a href="playlists.html">Playlists</a>
+      <a href="stats.html">Stats</a>
+      <a id="auth-link" href="auth.html">Login</a>
+      <button id="logout-btn" class="hidden">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="welcome-card">
+      <div class="bunny-placeholder">🐰</div>
+      <h2 id="greeting">Hi! Ready to focus?</h2>
+      <p class="streak">🔥 Streak: <span id="streak-count">—</span></p>
+      <div class="modes">
+        <button class="mode-btn" data-mode="focus">Focus (Pomodoro)</button>
+        <button class="mode-btn" data-mode="energy">Energy (Boost)</button>
+        <button class="mode-btn" data-mode="relax">Relax</button>
+      </div>
+      <div class="links">
+        <a class="primary" href="timer.html">Open Timer</a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { supabase } from './assets/js/supabaseClient.js';
+
+    // show auth state
+    document.addEventListener('DOMContentLoaded', async () => {
+      const { data } = await supabase.auth.getUser();
+      const user = data.user;
+      const authLink = document.getElementById('auth-link');
+      const logoutBtn = document.getElementById('logout-btn');
+      if (user) {
+        authLink.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
+      } else {
+        authLink.classList.remove('hidden');
+        logoutBtn.classList.add('hidden');
+      }
+
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const mode = e.currentTarget.dataset.mode;
+          // store chosen mode in localStorage for timer page
+          localStorage.setItem('bundo_mode', mode);
+          window.location.href = 'timer.html';
+        });
+      });
+
+      // load profile streak if available
+      if (user) {
+        const { data: profile } = await supabase.from('profiles').select('streak_count, username').eq('id', user.id).single();
+        if (profile) {
+          document.getElementById('streak-count').innerText = profile.streak_count ?? 0;
+          document.getElementById('greeting').innerText = `Hi ${profile.username ?? 'friend'}! Ready to focus?`;
+        }
+      }
+    });
+
+    // logout button listener
+    document.getElementById('logout-btn')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'auth.html';
+    });
+  </script>
+</body>
+</html>
