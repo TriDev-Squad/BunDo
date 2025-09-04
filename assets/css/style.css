@@ -1,0 +1,33 @@
+/* assets/css/style.css - compact, pixel-cozy styles */
+:root{
+  --bg:#F6F4EC; --accent:#F4A7B9; --muted:#7C5E52; --card:#fff;
+  --radius:6px;
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--muted);min-height:100vh}
+.topbar{display:flex;justify-content:space-between;padding:12px 18px;background:linear-gradient(180deg,#fff0,#fff);align-items:center}
+.logo{font-weight:700;letter-spacing:1px}
+nav a{margin-left:12px;color:var(--muted);text-decoration:none}
+.container{max-width:980px;margin:28px auto;padding:0 16px}
+.card, .welcome-card, .timer-card, .stats-card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow: 0 6px 18px rgba(0,0,0,0.06);text-align:center}
+.welcome-card .bunny-placeholder{font-size:72px}
+.modes{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.mode-btn{background:var(--accent);border:3px solid var(--muted);padding:10px 16px;border-radius:6px;cursor:pointer;color:white;font-weight:600}
+.primary{display:inline-block;margin-top:10px;padding:10px 16px;background:var(--muted);color:white;text-decoration:none;border-radius:6px}
+.hidden{display:none}
+
+/* timer */
+.timer-display{font-size:48px;margin:18px 0;font-weight:700}
+.controls button{margin:6px;padding:8px 12px;border-radius:6px;border:2px solid var(--muted);background:transparent;cursor:pointer}
+
+/* playlist */
+.playlist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
+.playlist-card{display:flex;gap:10px;align-items:center;padding:8px;background:#fbfbfb;border-radius:8px}
+.playlist-card .cover img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+
+/* auth */
+.auth-container{display:flex;gap:18px;justify-content:center;align-items:center;height:80vh}
+.card input{display:block;width:260px;margin:8px auto;padding:8px;border-radius:6px;border:2px solid #efe5df}
+.card button{padding:8px 12px;border-radius:6px;border:2px solid var(--muted);background:var(--accent);color:white;font-weight:600}
+.link-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:0; text-decoration:underline}
